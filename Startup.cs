@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Assign2.Helpers;
-using Assign2.Services;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Assign2.Data;
+using Assign2.Helpers;
+using Assign2.Services;
 
 namespace WebApi
 {
@@ -27,7 +27,12 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+             // Add Cors
+            services.AddCors(o => o.AddPolicy("SantaPolicy", builder => {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
             services.AddDbContext<ApplicationDbContext>(
                 option => option.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
@@ -83,11 +88,7 @@ namespace WebApi
             app.UseRouting();
 
             // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
             

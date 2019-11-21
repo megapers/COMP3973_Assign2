@@ -10,7 +10,8 @@ namespace Assign2.Helpers
         {
             CreateMap<User, UserModel>();
             CreateMap<RegisterModel, User>();
-            CreateMap<UpdateModel, User>();
+            CreateMap<UpdateProfileModel, User>();
+            CreateMap<UpdateUserModel, User>();
         }
     }
 }

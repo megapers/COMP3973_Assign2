@@ -144,6 +144,9 @@ namespace Assign2.Services
             if (userParam.Longitude != 0)
                 user.Longitude = userParam.Longitude;
 
+            if (userParam.IsNaughty != user.IsNaughty)
+                user.IsNaughty = userParam.IsNaughty;
+
             // update password if provided
             if (!string.IsNullOrWhiteSpace(password))
             {

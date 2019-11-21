@@ -2,7 +2,7 @@ using System;
 
 namespace Assign2.Models
 {
-    public class UpdateModel
+    public class UpdateProfileModel
     {
      
         public string FirstName { get; set; }

@@ -72,7 +72,6 @@ namespace Assign2.Controllers
             var model = _mapper.Map<IList<UserModel>>(users);
             return Ok(model);
         }
-
         
         [Route("getuser/{id}")]
         [HttpGet]
@@ -91,9 +90,9 @@ namespace Assign2.Controllers
             return Ok(user);
         }
 
-        [Route("updateuser/{id}")]
+        [Route("updateprofile/{id}")]
         [HttpPut]
-        public IActionResult Update(int id, [FromBody]UpdateModel model)
+        public IActionResult UpdateProfile(int id, [FromBody]UpdateProfileModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
@@ -112,6 +111,29 @@ namespace Assign2.Controllers
             }
         }
 
+        [Authorize(Roles = Role.Admin)]
+        [Route("updateuser/{id}")]
+        [HttpPut]
+        public IActionResult UpdateUser(int id, [FromBody]UpdateUserModel model)
+        {
+            // map model to entity and set id
+            var user = _mapper.Map<User>(model);
+            user.Id = id;
+
+            try
+            {
+                // update user 
+                _userService.Update(user, model.Password);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = Role.Admin)]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
