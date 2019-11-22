@@ -95,6 +95,21 @@ namespace WebApi
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+            UpdateDatabase(app);
+        }
+    
+           private void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                // get your database context of the current app
+                using (var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>())
+                {
+                    // Call the migrate of the database provider to
+                    // apply all data migrations pending
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }

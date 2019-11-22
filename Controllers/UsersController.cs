@@ -31,7 +31,7 @@ namespace Assign2.Controllers
             _mapper = mapper;
             _appSettings = appSettings.Value;
         }
-
+        
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]AuthenticateModel model)
@@ -63,7 +63,7 @@ namespace Assign2.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        
         [Authorize(Roles = Role.Admin)]
         [HttpGet("getall")]
         public IActionResult GetAll()
