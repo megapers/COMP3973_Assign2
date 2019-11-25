@@ -58,18 +58,20 @@ namespace Assign2.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
 
-            return user.WithoutPassword();
+            return user;
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users.WithoutPasswords();
+            //return _context.Users.WithoutPasswords();
+            return _context.Users;
         }
 
         public User GetById(int id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
-            return user.WithoutPassword();
+            //return user.WithoutPassword();
+            return user;
         }
 
         public User Create(User user, string password)

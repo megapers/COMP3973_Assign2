@@ -22,13 +22,14 @@ namespace WebApi
             Configuration = configuration;
         }
 
+        readonly string SantaPolicy = "SantaPolicy";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
              // Add Cors
-            services.AddCors(o => o.AddPolicy("SantaPolicy", builder => {
+            services.AddCors(o => o.AddPolicy(SantaPolicy, builder => {
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
@@ -88,7 +89,7 @@ namespace WebApi
             app.UseRouting();
 
             // global cors policy
-            app.UseCors();
+            app.UseCors(SantaPolicy);
             app.UseAuthentication();
             app.UseAuthorization();
             

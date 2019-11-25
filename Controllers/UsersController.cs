@@ -37,11 +37,11 @@ namespace Assign2.Controllers
         public IActionResult Authenticate([FromBody]AuthenticateModel model)
         {
             var user = _userService.Authenticate(model.Username, model.Password);
-
+            var mappedUser = _mapper.Map<UserModel>(user);
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(user);
+            return Ok(mappedUser);
         }
 
         [AllowAnonymous]
@@ -69,8 +69,9 @@ namespace Assign2.Controllers
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
-            var model = _mapper.Map<IList<UserModel>>(users);
-            return Ok(model);
+            var mapedUsers = _mapper.Map<IEnumerable<UserModel>>(users);
+
+            return Ok(mapedUsers);
         }
         
         [Route("getuser/{id}")]
@@ -83,11 +84,12 @@ namespace Assign2.Controllers
                 return Forbid();
 
             var user =  _userService.GetById(id);
+            var mapedUser = _mapper.Map<UserModel>(user);
 
             if (user == null)
                 return NotFound();
 
-            return Ok(user);
+            return Ok(mapedUser);
         }
 
         [Route("updateprofile/{id}")]
